@@ -83,6 +83,7 @@ REDIS_PORT=6379
 REDIS_PASSWORD=
 EOF
 
+nano .env
 ```
 
 *Windows PowerShell:*
@@ -102,19 +103,10 @@ REDIS_PORT=6379
 REDIS_PASSWORD=
 "@ | Out-File -FilePath .env -Encoding utf8
 
+notepad .env
 ```
 
 ```bash
-docker compose up -d
-```
-
-**Or clone the repo:**
-
-```bash
-git clone https://github.com/Nidhi018/Smart-Placement-Ai.git
-cd Smart-Placement-Ai
-cp .env.example .env
-# Edit .env and add your GEMINI_API_KEY
 docker compose up -d
 ```
 
@@ -123,12 +115,6 @@ docker compose up -d
 ```bash
 docker compose -f docker-compose.dev.yml up --build
 ```
-
-**Pre-built Images:**
-- `ghcr.io/nidhi018/smart-placement-ai-frontend:latest`
-- `ghcr.io/nidhi018/smart-placement-ai-backend:latest`
-- `ghcr.io/nidhi018/smart-placement-ai-service:latest`
-
 ## Configuration 🔧
 
 **Required (only this!):**
