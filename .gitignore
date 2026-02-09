@@ -11,8 +11,8 @@ Desktop.ini
 *.swo
 *.iml
 
-# Database / Data (Docker Volumes)
-storage/
+# Database / Data (Docker Volumes - root level only!)
+/storage/
 data/
 
 # Environment Variables
