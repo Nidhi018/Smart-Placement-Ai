@@ -66,6 +66,8 @@ flowchart LR
 
 *Linux/Mac:*
 ```bash
+
+mkdir smart-placement-ai
 # 1. Download compose file
 wget https://raw.githubusercontent.com/Nidhi018/Smart-Placement-Ai/main/docker-compose.yml
  (only GEMINI_API_KEY is required!)
@@ -85,6 +87,8 @@ EOF
 
 *Windows PowerShell:*
 ```powershell
+
+mkdir smart-placement-ai
 # 1. Download compose (only GEMINI_API_KEY is required!)
 @"
 GEMINI_API_KEY=your_gemini_api_key_here
