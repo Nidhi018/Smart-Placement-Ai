@@ -68,6 +68,7 @@ flowchart LR
 ```bash
 
 mkdir smart-placement-ai
+cd smart-placement-ai
 # 1. Download compose file
 wget https://raw.githubusercontent.com/Nidhi018/Smart-Placement-Ai/main/docker-compose.yml
  (only GEMINI_API_KEY is required!)
@@ -84,13 +85,14 @@ REDIS_PASSWORD=
 EOF
 
 nano .env
-cd smart-placement-ai
+
 ```
 
 *Windows PowerShell:*
 ```powershell
 
 mkdir smart-placement-ai
+cd smart-placement-ai
 # 1. Download compose (only GEMINI_API_KEY is required!)
 @"
 GEMINI_API_KEY=your_gemini_api_key_here
@@ -105,7 +107,7 @@ REDIS_PASSWORD=
 "@ | Out-File -FilePath .env -Encoding utf8
 
 notepad .env
-cd smart-placement-ai
+
 ```
 
 ```bash
