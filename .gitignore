@@ -1,0 +1,92 @@
+# OS / System
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.iml
+
+# Database / Data (Docker Volumes)
+storage/
+data/
+
+# Environment Variables
+.env
+.env.local
+.env.*
+!.env.example
+# Also ignore specific locations if they were previously hardcoded, but global covers it
+ai-service/.env
+
+# Caches & Temporary Files
+.cache/
+tmp/
+temp/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.npm/
+.parcel-cache/
+node_modules/
+
+# Backend (Go)
+backend/bin/
+backend/vendor/
+backend/uploads/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Frontend (Node/React)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/coverage/
+frontend/.npm/
+frontend/*.log
+
+# AI Service (Python)
+ai-service/__pycache__/
+ai-service/venv/
+ai-service/.venv/
+ai-service/env/
+ai-service/runs/
+ai-service/data/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+docker-compose.override.yml
+
+# LaTeX Artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.out
+*.lof
+*.lot
+*.bbl
+*.blg
+
+# Generated Content
+pdf_content.txt
+pdf_content_utf8.txt
+smart-placement-ai.pdf

@@ -1,0 +1,109 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: smart_placement_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./storage/postgres:/var/lib/postgresql/data
+    networks:
+      - smart_placement_net
+
+  ai-service:
+    build: ./ai-service
+    container_name: smart_placement_ai
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./storage/ai_data:/app/data
+      - ./ai-service:/app
+    networks:
+      - smart_placement_net
+
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./storage/minio:/data
+    networks:
+      - smart_placement_net
+
+  redis:
+    image: redis:alpine
+    container_name: smart_placement_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./storage/redis:/data
+    networks:
+      - smart_placement_net
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      /usr/bin/mc mb -p myminio/resumes;
+      /usr/bin/mc anonymous set download myminio/resumes;
+      exit 0;
+      "
+    networks:
+      - smart_placement_net
+
+  backend:
+    build: ./backend
+    ports:
+      - "8082:8080"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DB_PORT=5432
+      - AI_SERVICE_URL=http://ai-service:5000
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=${MINIO_ROOT_USER}
+      - MINIO_SECRET_KEY=${MINIO_ROOT_PASSWORD}
+      - MINIO_BUCKET_NAME=resumes
+      - MINIO_USE_SSL=false
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    depends_on:
+      - postgres
+      - ai-service
+      - minio
+    networks:
+      - smart_placement_net
+
+  frontend:
+    build: ./frontend
+    container_name: smart_placement_frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - smart_placement_net
+
+
+
+networks:
+  smart_placement_net:
+    driver: bridge
