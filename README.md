@@ -1,5 +1,10 @@
 # Smart Placement AI ⚡
 
+![Ready to Use](https://img.shields.io/badge/Ready%20to%20Use-Just%20add%20Gemini%20key!-success?style=for-the-badge)
+![Google OAuth](https://img.shields.io/badge/Google%20OAuth-Pre--configured-blue?style=for-the-badge)
+![Docker](https://img.shields.io/badge/Docker-One%20Click%20Deploy-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
 Smart Placement AI is a self-hosted resume analyzer that combines:
 ✅ a lightweight similarity model + 🤖 Gemini insights, with 🔐 Google sign-in and 📜 per-user history.
 
@@ -7,16 +12,17 @@ Smart Placement AI is a self-hosted resume analyzer that combines:
 
 - 🧠 Resume analysis (strengths, weaknesses, ATS notes, rewrite suggestions)
 - 📈 Match score (0–100) and recommended roles
-- 🔐 Google ID-token auth (verified + cached in Redis)
+- 🔐 Google sign-in (pre-configured, works out of the box!)
 - 🗄️ PDFs stored in MinIO + viewable from the UI
 - 🐘 Results stored in Postgres + `/history` per account
 
 ## How It Works (1-minute mental model) 🧩
 
-1) Frontend gets a Google **ID token**
-2) Backend verifies token (Google `tokeninfo`) and caches it in **Redis**
-3) Upload → backend extracts text, stores the PDF in **MinIO**, calls the **AI service**
-4) Backend stores the result in **Postgres** and shows it in **History**
+1) Sign in with **any Google account** (no setup needed!)
+2) Upload your resume PDF
+3) Backend extracts text, stores PDF in **MinIO**, calls **AI service**
+4) AI analyzes with Gemini + similarity model
+5) View results + access your **History** anytime
 
 ## Architecture 🗺️
 
@@ -62,8 +68,7 @@ flowchart LR
 ```bash
 # 1. Download compose file
 wget https://raw.githubusercontent.com/Nidhi018/Smart-Placement-Ai/main/docker-compose.yml
-
-# 2. Create .env file
+ (only GEMINI_API_KEY is required!)
 cat > .env << EOF
 GEMINI_API_KEY=your_gemini_api_key_here
 POSTGRES_USER=postgres
@@ -78,14 +83,14 @@ EOF
 
 # 3. Run
 docker compose up -d
+
+# Access at http://localhost:5173 and sign in with any Gmail!
+docker compose up -d
 ```
 
 *Windows PowerShell:*
 ```powershell
-# 1. Download compose file
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Nidhi018/Smart-Placement-Ai/main/docker-compose.yml" -OutFile "docker-compose.yml"
-
-# 2. Create .env file
+# 1. Download compose (only GEMINI_API_KEY is required!)
 @"
 GEMINI_API_KEY=your_gemini_api_key_here
 POSTGRES_USER=postgres
@@ -97,6 +102,11 @@ REDIS_HOST=redis
 REDIS_PORT=6379
 REDIS_PASSWORD=
 "@ | Out-File -FilePath .env -Encoding utf8
+
+# 3. Run
+docker compose up -d
+
+# Access at http://localhost:5173 and sign in with any Gmail!ath .env -Encoding utf8
 
 # 3. Run
 docker compose up -d
@@ -125,17 +135,21 @@ docker compose -f docker-compose.dev.yml up --build
 
 ## Configuration 🔧
 
-Minimum required:
+**Required (only this!):**
 
-- 🔑 `GEMINI_API_KEY` (AI service)
+- 🔑 `GEMINI_API_KEY` - Get your free key from [Google AI Studio](https://ai.google.dev/)
+
+**Database & Storage (defaults work fine):**
+
 - 🐘 `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`
 - 🗄️ `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD`
 - ⚡ `REDIS_HOST`, `REDIS_PORT` (password optional)
 
-Google OAuth note:
+**Google OAuth:**
 
-- The frontend currently has a **hard-coded Google OAuth Client ID** in `frontend/src/main.tsx`.
-  For a real open-source setup, replace it with your own Client ID.
+✅ Already configured! Just sign in with any Google account - no OAuth setup needed.
+
+> **Note:** For production deployment, replace the OAuth Client ID in `frontend/src/main.tsx` with your own.
 
 ## Endpoints (what you’ll actually hit) 🧪
 
