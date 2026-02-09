@@ -22,20 +22,36 @@ Smart Placement AI is a self-hosted resume analyzer that combines:
 
 ```mermaid
 flowchart LR
-  U[👤 User] --> F[🖥️ Frontend\nReact + Vite]
-  F -->|Google Sign-In\nID token| F
-
-  F -->|Upload PDF\nBearer token| B[🧠 Backend API\nGo + Gin]
-  B -->|Extract text\npdftotext| B
-
-  B -->|Store PDF| S[(🗄️ MinIO\nObject Storage)]
-  B -->|Cache sessions\nGoogle tokeninfo| R[(⚡ Redis)]
-  B -->|Save results| P[(🐘 Postgres)]
-
-  B -->|Analyze resume text| A[🤖 AI Service\nPython + Flask]
-  A -->|Gemini insights +\nSimilarity score| B
-
-  B -->|History + PDF stream| F
+    U[👤 User] --> F[🖥️ Frontend<br/>React + Vite]
+    
+    F -->|1. Google Sign-In| G[🔐 Google OAuth]
+    G -->|ID Token| F
+    
+    F -->|2. Upload PDF + Token| B[🧠 Backend<br/>Go + Gin]
+    
+    B -->|3. Extract Text| B
+    B -->|4. Store PDF| M[(🗄️ MinIO)]
+    B -->|5. Verify Token| R[(⚡ Redis)]
+    
+    B -->|6. Analyze Text| A[🤖 AI Service<br/>Python]
+    A -->|Call Gemini| AI[✨ Gemini API]
+    AI -->|Insights| A
+    
+    A -->|7. Results| B
+    B -->|8. Save Results| DB[(🐘 Postgres)]
+    
+    B -->|9. Response| F
+    F -->|10. Display| U
+    
+    style F fill:#6366f1,stroke:#4f46e5,stroke-width:3px,color:#fff
+    style B fill:#8b5cf6,stroke:#7c3aed,stroke-width:3px,color:#fff
+    style A fill:#ec4899,stroke:#db2777,stroke-width:3px,color:#fff
+    style G fill:#f59e0b,stroke:#d97706,stroke-width:3px,color:#fff
+    style AI fill:#f59e0b,stroke:#d97706,stroke-width:3px,color:#fff
+    style DB fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style R fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style M fill:#10b981,stroke:#059669,stroke-width:3px,color:#fff
+    style U fill:#64748b,stroke:#475569,stroke-width:3px,color:#fff
 ```
 
 ## Run (Docker) 🐳
