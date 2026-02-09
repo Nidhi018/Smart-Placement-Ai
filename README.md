@@ -93,6 +93,8 @@ nano .env
 
 mkdir smart-placement-ai
 cd smart-placement-ai
+
+wget https://raw.githubusercontent.com/Nidhi018/Smart-Placement-Ai/main/docker-compose.yml -OutFile docker-compose.yml
 # 1. Download compose (only GEMINI_API_KEY is required!)
 @"
 GEMINI_API_KEY=your_gemini_api_key_here

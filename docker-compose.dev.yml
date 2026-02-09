@@ -15,6 +15,11 @@ services:
       - "5432:5432"
     volumes:
       - ./storage/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     networks:
       - smart_placement_net
 
@@ -42,6 +47,11 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - ./storage/minio:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     networks:
       - smart_placement_net
 
@@ -58,10 +68,13 @@ services:
   createbuckets:
     image: minio/mc
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD};
+      until /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_ROOT_USER} ${MINIO_ROOT_PASSWORD}; do
+        echo 'Waiting for MinIO...'; sleep 2;
+      done;
       /usr/bin/mc mb -p myminio/resumes;
       /usr/bin/mc anonymous set download myminio/resumes;
       exit 0;
@@ -89,9 +102,12 @@ services:
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     depends_on:
-      - postgres
-      - ai-service
-      - minio
+      postgres:
+        condition: service_healthy
+      ai-service:
+        condition: service_started
+      createbuckets:
+        condition: service_completed_successfully
     networks:
       - smart_placement_net
 
