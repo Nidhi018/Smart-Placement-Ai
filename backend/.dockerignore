@@ -1,0 +1,8 @@
+*.md
+.git
+.gitignore
+.env
+.vscode
+.idea
+uploads/
+storage/

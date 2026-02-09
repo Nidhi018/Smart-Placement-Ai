@@ -1,5 +1,8 @@
 version: '3.8'
 
+# Development compose file - builds images locally
+# Usage: docker compose -f docker-compose.dev.yml up --build
+
 services:
   postgres:
     image: postgres:15-alpine
@@ -16,7 +19,7 @@ services:
       - smart_placement_net
 
   ai-service:
-    image: ghcr.io/nidhi018/smart-placement-ai-service:latest
+    build: ./ai-service
     container_name: smart_placement_ai
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
@@ -24,6 +27,7 @@ services:
       - "5000:5000"
     volumes:
       - ./storage/ai_data:/app/data
+      - ./ai-service:/app
     networks:
       - smart_placement_net
 
@@ -66,7 +70,7 @@ services:
       - smart_placement_net
 
   backend:
-    image: ghcr.io/nidhi018/smart-placement-ai-backend:latest
+    build: ./backend
     ports:
       - "8082:8080"
     environment:
@@ -92,7 +96,7 @@ services:
       - smart_placement_net
 
   frontend:
-    image: ghcr.io/nidhi018/smart-placement-ai-frontend:latest
+    build: ./frontend
     container_name: smart_placement_frontend
     ports:
       - "5173:80"

@@ -56,11 +56,72 @@ flowchart LR
 
 ## Run (Docker) 🐳
 
-Create `.env` from `.env.example`, then:
+**Quick Start (Production - no clone needed!):**
+
+*Linux/Mac:*
+```bash
+# 1. Download compose file
+wget https://raw.githubusercontent.com/Nidhi018/Smart-Placement-Ai/main/docker-compose.yml
+
+# 2. Create .env file
+cat > .env << EOF
+GEMINI_API_KEY=your_gemini_api_key_here
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
+POSTGRES_DB=placement_db
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+REDIS_HOST=redis
+REDIS_PORT=6379
+REDIS_PASSWORD=
+EOF
+
+# 3. Run
+docker compose up -d
+```
+
+*Windows PowerShell:*
+```powershell
+# 1. Download compose file
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Nidhi018/Smart-Placement-Ai/main/docker-compose.yml" -OutFile "docker-compose.yml"
+
+# 2. Create .env file
+@"
+GEMINI_API_KEY=your_gemini_api_key_here
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=password
+POSTGRES_DB=placement_db
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+REDIS_HOST=redis
+REDIS_PORT=6379
+REDIS_PASSWORD=
+"@ | Out-File -FilePath .env -Encoding utf8
+
+# 3. Run
+docker compose up -d
+```
+
+**Or clone the repo:**
 
 ```bash
-docker compose up -d --build
+git clone https://github.com/Nidhi018/Smart-Placement-Ai.git
+cd Smart-Placement-Ai
+cp .env.example .env
+# Edit .env and add your GEMINI_API_KEY
+docker compose up -d
 ```
+
+**Development (builds locally):**
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+**Pre-built Images:**
+- `ghcr.io/nidhi018/smart-placement-ai-frontend:latest`
+- `ghcr.io/nidhi018/smart-placement-ai-backend:latest`
+- `ghcr.io/nidhi018/smart-placement-ai-service:latest`
 
 ## Configuration 🔧
 
@@ -88,6 +149,21 @@ Google OAuth note:
 - The AI service can bootstrap a basic similarity model even without the dataset.
 - Want to retrain similarity scoring? The AI service exposes `POST /train` (treat as admin-only).
 
+## Building & Publishing Images 🏗️
+
+**Option 1: GitHub Actions (Recommended)**
+
+Go to GitHub → Actions → "Build and Push Docker Images" → Run workflow
+- Enter version (e.g., `v1.0.0`) or leave empty for `latest`
+- Click "Run workflow"
+- Done! ✅
+```
+
+Make sure you're logged into GitHub Container Registry first:
+```bash
+echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+```
+
 ## License 📄
 
-No license file is included yet. If you’re planning to publish this as OSS, add a `LICENSE` (e.g., MIT/Apache-2.0) to clarify usage rights.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
