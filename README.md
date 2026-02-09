@@ -81,11 +81,6 @@ REDIS_PORT=6379
 REDIS_PASSWORD=
 EOF
 
-# 3. Run
-docker compose up -d
-
-# Access at http://localhost:5173 and sign in with any Gmail!
-docker compose up -d
 ```
 
 *Windows PowerShell:*
@@ -103,12 +98,9 @@ REDIS_PORT=6379
 REDIS_PASSWORD=
 "@ | Out-File -FilePath .env -Encoding utf8
 
-# 3. Run
-docker compose up -d
+```
 
-# Access at http://localhost:5173 and sign in with any Gmail!ath .env -Encoding utf8
-
-# 3. Run
+```bash
 docker compose up -d
 ```
 
