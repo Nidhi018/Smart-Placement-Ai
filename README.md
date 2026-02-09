@@ -84,6 +84,7 @@ REDIS_PASSWORD=
 EOF
 
 nano .env
+cd smart-placement-ai
 ```
 
 *Windows PowerShell:*
@@ -104,6 +105,7 @@ REDIS_PASSWORD=
 "@ | Out-File -FilePath .env -Encoding utf8
 
 notepad .env
+cd smart-placement-ai
 ```
 
 ```bash
