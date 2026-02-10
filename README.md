@@ -24,6 +24,50 @@ Smart Placement AI is a self-hosted resume analyzer that combines:
 4) AI analyzes with Gemini + similarity model
 5) View results + access your **History** anytime
 
+## Screenshots 📸
+
+<div align="center">
+
+<table>
+  <tr>
+    <td colspan="2" align="center">
+      <img src="screenshots/main page - google auth.png" alt="Google Authentication" width="70%"/>
+      <br/>
+      <b>🔐 Google Authentication</b>
+      <br/><br/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="screenshots/preview - upload resume.png" alt="Upload Resume" width="100%"/>
+      <br/>
+      <b>📤 Upload Resume</b>
+    </td>
+    <td width="50%" align="center">
+      <img src="screenshots/resume-history.png" alt="History Dashboard" width="100%"/>
+      <br/>
+      <b>📜 History Dashboard</b>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <br/>
+      <b>📊 Analysis Results</b>
+      <br/><br/>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="screenshots/Resume-analysis-results.png" alt="Analysis Results 1" width="100%"/>
+    </td>
+    <td width="50%" align="center">
+      <img src="screenshots/resume-analysis-result-2.png" alt="Analysis Results 2" width="100%"/>
+    </td>
+  </tr>
+</table>
+
+</div>
+
 ## Architecture 🗺️
 
 ```mermaid
