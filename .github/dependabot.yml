@@ -1,0 +1,49 @@
+version: 2
+updates:
+# GitHub Actions
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+
+# Docker (Root - docker-compose)
+- package-ecosystem: "docker"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+
+# Python (AI Service)
+- package-ecosystem: "pip"
+  directory: "/ai-service"
+  schedule:
+    interval: "weekly"
+
+# Docker (AI Service)
+- package-ecosystem: "docker"
+  directory: "/ai-service"
+  schedule:
+    interval: "weekly"
+
+# Go (Backend)
+- package-ecosystem: "gomod"
+  directory: "/backend"
+  schedule:
+    interval: "weekly"
+
+# Docker (Backend)
+- package-ecosystem: "docker"
+  directory: "/backend"
+  schedule:
+    interval: "weekly"
+
+# npm (Frontend)
+- package-ecosystem: "npm"
+  directory: "/frontend"
+  schedule:
+    interval: "weekly"
+
+# Docker (Frontend)
+- package-ecosystem: "docker"
+  directory: "/frontend"
+  schedule:
+    interval: "weekly"
