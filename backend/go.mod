@@ -1,10 +1,10 @@
 module backend
 
-go 1.24.1
+go 1.25
 
 require (
 	github.com/gin-gonic/gin v1.11.0
-	github.com/minio/minio-go/v7 v7.0.98
+	github.com/minio/minio-go/v7 v7.0.99
 	github.com/redis/go-redis/v9 v9.5.1
 	gorm.io/datatypes v1.2.7
 	gorm.io/driver/postgres v1.6.0
